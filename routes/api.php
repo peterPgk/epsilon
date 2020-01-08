@@ -13,9 +13,5 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('auth:api')->group(function () {
-});
-
-Route::get('services', 'ServicesController@index');
-
 Route::post('/login', 'AuthController@login');
+Route::get('services', 'ServicesController@index');

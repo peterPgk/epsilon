@@ -1,8 +1,9 @@
+import { isEmpty } from 'lodash';
 export default {
     loggedIn(state) {
         return state.auth !== null;
     },
     hasServices(state) {
-        return state.services.length !== 0;
+        return ! isEmpty(state.services);
     }
 }

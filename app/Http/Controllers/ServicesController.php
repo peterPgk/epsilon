@@ -7,15 +7,23 @@ use GuzzleHttp\Exception\BadResponseException;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
+/**
+ * Class ServicesController
+ * @package App\Http\Controllers
+ */
 class ServicesController extends Controller
 {
+    protected $client;
+
+    public function __construct()
+    {
+        $this->client = new Client();
+    }
 
     public function index(Request $request)
     {
-        $http = new Client();
-
         try {
-            $response = $http->get(config('api.url.services'), [
+            $response = $this->client->get(config('api.url.services'), [
                 'headers' => [
                     'Content-Type' => 'application/json',
                     'Accept' => $request->headers->get('Accept'),
@@ -26,13 +34,14 @@ class ServicesController extends Controller
             return $response->getBody();
 
         } catch (BadResponseException $e) {
-            //Unprocessable Entity\
             if ($e->getCode() === Response::HTTP_UNPROCESSABLE_ENTITY) {
-                return response()->json('Invalid Request. Please enter a username or a password.', $e->getCode());
+                return response()->json('Invalid Request.', $e->getCode());
             }
 
+            // Here the reason can be because 'access_token' is expired. We can process this from Frontend, and hit
+            // the route for refreshing token
             if ($e->getCode() === Response::HTTP_UNAUTHORIZED) {
-                return response()->json('Your credentials are incorrect. Please try again', $e->getCode());
+                return response()->json('Refresh', $e->getCode());
             }
 
             return response()->json('Something went wrong on the server', $e->getCode());

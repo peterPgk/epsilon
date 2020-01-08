@@ -1,11 +1,12 @@
 import Vue from 'vue';
 import VueRouter from "vue-router";
-import {store} from './store'
 import ServicesListPage from "./components/pages/ServicesListPage";
 import ServicePage from "./components/pages/ServicePage"
 import HomePage from "./components/pages/HomePage";
 import Login from "./components/pages/auth/Login";
 import Logout from "./components/pages/auth/Logout";
+
+import {store} from './store'
 
 Vue.use(VueRouter);
 

@@ -1,23 +1,47 @@
 <template>
-    <div class="login-form">
-        <h2 class="login-heading"> Login</h2>
+    <div>
+        <b-row>
+            <b-col></b-col>
+            <b-col cols="6">
+                <b-card>
+                    <template v-slot:header>
+                        <h4 class="mb-0">Login</h4>
+                    </template>
+                    <b-card-body>
+                    <b-card-text>
+                        <b-form @submit.prevent="login">
+                            <b-form-group
+                                id="input-group-1"
+                                label="Username/Email"
+                                label-for="username"
+                            >
+                                <b-form-input
+                                    id="username"
+                                    v-model="user.username"
+                                    type="email"
+                                    required
+                                    placeholder="Enter username/email"
+                                ></b-form-input>
+                            </b-form-group>
 
-        <form action="#" @submit.prevent="login">
-            <div class="form-control">
-                <label for="username">Username/Email</label>
-                <input type="email" name="username" id="username" class="login-input" v-model="username">
-            </div>
+                            <b-form-group id="input-group-2" label="Password" label-for="password">
+                                <b-form-input
+                                    id="password"
+                                    type="password"
+                                    v-model="user.password"
+                                    required
+                                    placeholder="Enter password"
+                                ></b-form-input>
+                            </b-form-group>
 
-            <div class="form-control mb-more">
-                <label for="password">Username/Email</label>
-                <input type="password" name="password" id="password" class="login-input" v-model="password">
-            </div>
-
-            <div class="form-control">
-                <button type="submit" class="btn-submit">Login</button>
-            </div>
-
-        </form>
+                            <b-button type="submit" variant="primary">Login</b-button>
+                        </b-form>
+                    </b-card-text>
+                    </b-card-body>
+                </b-card>
+            </b-col>
+            <b-col></b-col>
+        </b-row>
     </div>
 </template>
 
@@ -26,16 +50,15 @@
         name: "login",
         data() {
             return {
-                username: '',
-                password: ''
+                user: {
+                    username: '',
+                    password: ''
+                }
             }
         },
         methods: {
             login() {
-                this.$store.dispatch('authenticate', {
-                    username: this.username,
-                    password: this.password,
-                })
+                this.$store.dispatch('authenticate', this.user)
                 .then(response => {
                     this.$router.push({ name: 'services'})
                 })

@@ -4,13 +4,23 @@ axios.defaults.baseUrl = 'http://test.test/api';
 axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
 export default {
+    /**
+     * Logout user.
+     * @param context
+     */
     destroyAuth(context) {
         if (context.getters.loggedIn) {
-            //TODO: If we handle auth process from BE, we need to make request to the server here
             localStorage.removeItem('auth');
             context.commit('destroyAuth');
         }
     },
+    /**
+     * Make request to obtain access tokens
+     *
+     * @param commit
+     * @param credentials
+     * @returns {Promise<unknown>}
+     */
     authenticate({commit}, credentials) {
         return new Promise((resolve, reject) => {
             axios
@@ -25,20 +35,26 @@ export default {
                 })
                 .then(response => {
                     //Save to the LS
+                    // Use vue-persistedstate ?
                     localStorage.setItem('auth', JSON.stringify(response.data));
                     commit('storeAuth', response.data);
 
                     resolve(response)
                 })
                 .catch(error => {
+                    //TODO
                     reject(error);
                 })
         });
     },
 
+    /**
+     * Make request to get services. There are not be stored persistent
+     * (use vuex-persistedstate otherwise)
+     *
+     * @param context
+     */
     retrieveServices(context) {
-        console.log(context.getters.hasServices);
-
         if (!context.getters.hasServices ) {
             axios
                 .get('http://test.test/api/services', {
@@ -50,16 +66,12 @@ export default {
                     }
                 })
                 .then(({data}) => {
-                    console.log(data, 'from server');
-                    //Save to the LS
-                    // localStorage.setItem('auth', data);
-                    // localStorage.setItem('auth', JSON.stringify(response.data));
+                    //Save to the LS.
                     context.commit('storeServices', data.services);
-
-                    // resolve(response)
                 })
                 .catch(error => {
-                    // reject(error);
+                    //TODO Handle errors
+                    //TODO If Unauthorized and isLogged -> hit refresh to refresh token
                     console.log(error)
                 })
         }

@@ -1,6 +1,6 @@
 <template>
     <div>
-        Services List goes here
+        <h2 class="mb-4 align-content-center">Services List goes here</h2>
 <!--        <Service v-for="service in services" :key="service.id" :service="service"></Service>-->
 <!--        <div v-for="service in services" :key="service.id" class="">-->
 <!--            {{ service.name }}-->
@@ -41,9 +41,6 @@
             ...mapState([
                 'services'
             ])
-            // services() {
-            //     return this.$store.getters.services
-            // }
         },
         created() {
             this.$store.dispatch('retrieveServices')

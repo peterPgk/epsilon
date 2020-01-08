@@ -1,36 +1,40 @@
 <template>
     <div>
-        <h2>{{ service.name }}</h2>
-
-        <b-card title="Service Info" sub-title="Card subtitle">
+        <div v-if="service">
+        <b-card title="Service Basic Info" :sub-title="service.status">
             <b-card-text>
                 <b-container class="bv-example-row">
                     <b-row>
-                        <b-col>Column</b-col>
-                        <b-col>Column</b-col>
-                        <div class="w-100"></div>
-                        <b-col>Column</b-col>
-                        <b-col>Column</b-col>
+                        <b-col>
+                            <b-row><b-col class="font-weight-light">name</b-col></b-row>
+                            <b-row><b-col><h4>{{ service.name }}</h4></b-col></b-row>
+                        </b-col>
+                        <b-col>
+                            <b-row><b-col class="font-weight-light">bandwidth</b-col></b-row>
+                            <b-row><b-col><h4>{{ service.bandwidth }}</h4></b-col></b-row>
+                        </b-col>
+                        <b-col>
+                            <b-row><b-col class="font-weight-light">created</b-col></b-row>
+                            <b-row><b-col><h5>{{ service.created }}</h5></b-col></b-row>
+                        </b-col>
+                        <b-col>
+                            <b-row><b-col class="font-weight-light">expires</b-col></b-row>
+                            <b-row><b-col><h5>{{ service.expires }}</h5></b-col></b-row>
+                        </b-col>
                     </b-row>
                 </b-container>
             </b-card-text>
-<!--            <b-card-text>-->
-<!--                Some quick example text to build on the <em>card title</em> and make up the bulk of the card's-->
-<!--                content.-->
-<!--            </b-card-text>-->
-
-<!--            <b-card-text>A second paragraph of text in the card.</b-card-text>-->
-
-<!--            <a href="#" class="card-link">Card link</a>-->
-<!--            <b-link href="#" class="card-link">Another link</b-link>-->
         </b-card>
-
+        </div>
+        <div class="mt-4">
+            <b-button variant="outline-primary" @click="$router.go(-1)">Back to Services</b-button>
+        </div>
     </div>
 </template>
 
 <script>
-    import { mapState, mapGetters } from "vuex";
-    import Service from "../Service";
+    import { mapState } from "vuex";
+
     export default {
         name: "ServicesPage",
 
