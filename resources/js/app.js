@@ -5,12 +5,17 @@
  */
 
 import Vue from 'vue';
+import BootstrapVue from 'bootstrap-vue'
 import router from './router'
 import App from './components/App'
+import {store} from './store'
+
+import 'bootstrap/dist/css/bootstrap.css'
+import 'bootstrap-vue/dist/bootstrap-vue.css'
+
+Vue.use(BootstrapVue);
 
 require('./bootstrap');
-
-// window.Vue = require('vue');
 
 /**
  * The following block of code may be used to automatically register your
@@ -36,5 +41,6 @@ const app = new Vue({
     components: {
         App
     },
+    store,
     router
 });

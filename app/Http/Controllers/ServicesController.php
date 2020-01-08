@@ -2,27 +2,51 @@
 
 namespace App\Http\Controllers;
 
+use GuzzleHttp\Client;
+use GuzzleHttp\Exception\BadResponseException;
 use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class ServicesController extends Controller
 {
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
+
+    public function index(Request $request)
     {
-//        $this->middleware('auth');
+        $http = new Client();
+
+        try {
+            $response = $http->get(config('api.url.services'), [
+                'headers' => [
+                    'Content-Type' => 'application/json',
+                    'Accept' => $request->headers->get('Accept'),
+                    'Authorization' => $request->headers->get('Authorization'),
+                ]
+            ]);
+
+            return $response->getBody();
+
+        } catch (BadResponseException $e) {
+            //Unprocessable Entity\
+            if ($e->getCode() === Response::HTTP_UNPROCESSABLE_ENTITY) {
+                return response()->json('Invalid Request. Please enter a username or a password.', $e->getCode());
+            }
+
+            if ($e->getCode() === Response::HTTP_UNAUTHORIZED) {
+                return response()->json('Your credentials are incorrect. Please try again', $e->getCode());
+            }
+
+            return response()->json('Something went wrong on the server', $e->getCode());
+        }
     }
 
     /**
-     * Show the application dashboard.
+     * Display the specified resource.
      *
-     * @return \Illuminate\Contracts\Support\Renderable
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function show($id)
     {
-        return view('home');
+        //
     }
 }
