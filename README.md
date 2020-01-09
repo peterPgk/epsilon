@@ -14,7 +14,7 @@ This application consumes CloudLX API for getting Users services.
     ```php artisan key:generate``` 
     
     for generation of encryption key if value APP_KEY in `.env` file is empty.
-- Run `npm install` and `npm run dev`/`npm run prod` to install and compile files again.
+- The frontend files are pre-generated, but can run `npm install` and `npm run dev`/`npm run prod` to install and compile files again.
 
 ### Packages used
 - [guzzlehttp/guzzle](https://github.com/guzzle/guzzle)
@@ -25,8 +25,8 @@ This application consumes CloudLX API for getting Users services.
 - [bootstrap-vue](https://bootstrap-vue.js.org/docs/components/form/) for visual components. 
 
 ### Extra info
-- The password for 'peter.pgk@gmail.com' user is `Inf123!@#`
+- The password for 'peter.pgk@gmail.com' user is in .env file
 
 ### TODO
-- Finishing 'refresh_token' procedure
+- Finishing `'refresh_token'` procedure
 - Handling errors from FE
